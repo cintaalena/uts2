@@ -20,7 +20,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     // Path disesuaikan dengan lokasi di mesin Jenkins
-                    bat '"C:\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat"'
+                    bat 'C:\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat'
                 }
             }
         }
