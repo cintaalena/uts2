@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SONAR_TOKEN = credentials('sqp_4776741b07c62ccd65f3a9a0de26fbf378472bd2')
+        SONAR_TOKEN = credentials('squ_15c0d6ac4b95ac29da45a092578e8a08e388969f')
     }
     stages {
         // Tahap 'Checkout' dari tutorial dihapus karena tidak diperlukan
