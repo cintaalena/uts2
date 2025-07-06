@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SONAR_TOKEN = credentials('squ_15c0d6ac4b95ac29da45a092578e8a08e388969f')
+        SONAR_TOKEN = credentials('sonarqube-token')
     }
     stages {
         // Tahap 'Checkout' dari tutorial dihapus karena tidak diperlukan
@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Run PHPUnit') {
             steps {
-                bat 'vendor\\bin\\phpunit --configuration phpunit.xml'
+                bat 'vendor//bin//phpunit --configuration phpunit.xml'
             }
         }
         stage('SonarQube Analysis') {
