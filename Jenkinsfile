@@ -1,24 +1,36 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven'
+    environment {
+        SONAR_TOKEN = credentials('sqp_4776741b07c62ccd65f3a9a0de26fbf378472bd2')
     }
-
     stages {
-        stage('Git Checkout') {
+        // Tahap 'Checkout' dari tutorial dihapus karena tidak diperlukan
+
+        stage('Install Dependencies') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/cintaalena/uts2.git']])
-                echo 'Git Checkout Completed'
+                bat 'composer install'
             }
         }
-
+        stage('Run PHPUnit') {
+            steps {
+                bat 'vendor\\bin\\phpunit --configuration phpunit.xml'
+            }
+        }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('ServerNameSonar') {
-                    bat '''mvn clean verify sonar:sonar -Dsonar.projectKey=UTS2-JENKINS-PROJECT -Dsonar.projectName='UTS2-JENKINS-PROJECT' -Dsonar.host.url=http://localhost:9000''' //port 9000 is default for sonar
-                    echo 'SonarQube Analysis Completed'
+                withSonarQubeEnv('SonarQube') {
+                    // Path disesuaikan dengan lokasi di mesin Jenkins
+                    bat '"C:\sonar-scanner-7.1.0.4889-windows-x64\bin\sonar-scanner.bat"'
                 }
             }
+        }
+    }
+    post {
+        failure {
+            echo 'Pipeline gagal, cek log.'
+        }
+        success {
+            echo 'Pipeline berhasil!'
         }
     }
 }
